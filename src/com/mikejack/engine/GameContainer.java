@@ -1,124 +1,108 @@
 package com.mikejack.engine;
 
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.util.Random;
+
 //Game container class "contains the game"
 //Game loop = a while loop that loops the game until the game is over
 //Game engine = engine starts up game loop and loads all resources and controls user inputs
-public class GameContainer implements Runnable{
+public class GameContainer extends Canvas implements Runnable {
 
-	private Thread thread;
-	private Window window;
-	private AbstractGame game;
-	
-	
-	
-	private boolean running = false;
-	private final double UPDATE_CAP = 1.0/60.0;
-	//window variables
-	private int width = 320, height = 240;
-	private float scale = 3f;
-	private String title = "MiJakEngine v1.0";
-	
-	
-	public GameContainer(AbstractGame game) {
-		this.game = game;
-	}
-	
-	public void start() {
-		window = new Window(this);
-		
-		thread = new Thread(this);
-		thread.run();
-	}
-	
-	public void run() {
-		running = true;
-		
-		boolean render = false;
-		double firstTime = 0;
-		double lastTime = System.nanoTime() / 1000000000.0;
-		double passedTime = 0;
-		double unprocessedTime = 0;
-		
-		double frameTime = 0;
-		int frames = 0;
-		int fps = 0;
-		
-		while (running) {
-			render = false;
-			firstTime = System.nanoTime()/1000000000.0;
-			passedTime = firstTime - lastTime;
-			lastTime = firstTime;
-			
-			unprocessedTime += passedTime;
-			frameTime += passedTime;
-			
-			while(unprocessedTime >= UPDATE_CAP) {
-				unprocessedTime -= UPDATE_CAP;
-				render = true;
-				
-				game.update(this, (float)UPDATE_CAP);
-				
-				if(frameTime >= 1.0) {
-					frameTime = 0;
-					fps = frames;
-					frames = 0;
-					System.out.println("FPS: " + fps);
-				}
-			}
-			
-			if(render) {
-				game.render(this, renderer);
-				window.update();
-				frames++;
-			}else {
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-		}
-		
-		dispose();
-	}
-	
-	private void dispose() {
-		
-	}
-	
-	
-	public int getWidth() {
-		return width;
-	}
+    private Window window;
+    private AbstractGame game;
 
-	public void setWidth(int width) {
-		this.width = width;
-	}
+    private Thread gameThread;
+    private boolean running = false;
+    // window variables
+    private int width = 320, height = 240;
+    private int scale = 3;
+    private String title = "MiJakEngine v0.1";
+    private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    private int pixels[] = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
-	public int getHeight() {
-		return height;
-	}
+    public GameContainer(AbstractGame game) {
+	this.game = game;
+	window = new Window(title, width, height, scale, this);
+    }
 
-	public void setHeight(int height) {
-		this.height = height;
-	}
+    public void init() {
+    }
 
-	public float getScale() {
-		return scale;
-	}
+    public synchronized void start() {
+	if (running)
+	    return;
+	running = true;
+	gameThread = new Thread(this);
+	gameThread.start();
+    }
 
-	public void setScale(float scale) {
-		this.scale = scale;
+    public synchronized void stop() {
+	running = false;
+	if (gameThread != null) {
+	    try {
+		gameThread.join();
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
 	}
+    }
+    
+    public void run() {
+	long lastTime = System.nanoTime();
+	double amountOfTicks = 60.0;
+	double ns = 1000000000 / amountOfTicks;
+	double delta = 0;
+	long timer = System.currentTimeMillis();
+	int updates = 0;
+	int frames = 0;
 
-	public String getTitle() {
-		return title;
-	}
+	init();
+	while (running) {
+	    long now = System.nanoTime();
+	    delta += (now - lastTime) / ns;
+	    lastTime = now;
+	    while (delta >= 1) {
+		update();
+		updates++;
+		delta--;
+	    }
+	    render();
+	    frames++;
 
-	public void setTitle(String ittle) {
-		this.title = ittle;
+	    if (System.currentTimeMillis() - timer > 1000) {
+		timer += 1000;
+		System.out.println("UPDATES: " + updates + "\t FPS: " + frames);
+		frames = 0;
+		updates = 0;
+	    }
 	}
+    }
+    
+    public void update() {
+	for (int i = 0; i < pixels.length; i++) {
+	    pixels[i] = i + new Random().nextInt();
+	}
+    }
+    
+    public void render() {
+	BufferStrategy bs = getBufferStrategy();
+	if (bs == null) {
+	    createBufferStrategy(3);
+	    return;
+	}
+	
+	Graphics g = bs.getDrawGraphics();
+	g.setColor(Color.BLACK);
+	g.fillRect(0, 0, width*scale, width*scale);
+	g.drawImage(image, 0, 0, width*scale, height*scale, null);
+	g.dispose();
+	bs.show();
+	
+    }
 
 }
