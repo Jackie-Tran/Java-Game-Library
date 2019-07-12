@@ -13,96 +13,97 @@ import java.util.Random;
 //Game engine = engine starts up game loop and loads all resources and controls user inputs
 public class GameContainer extends Canvas implements Runnable {
 
-    private Window window;
-    private AbstractGame game;
+	private Window window;
+	private AbstractGame game;
 
-    private Thread gameThread;
-    private boolean running = false;
-    // window variables
-    private int width = 320, height = 240;
-    private int scale = 3;
-    private String title = "MiJakEngine v0.1";
-    private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    private int pixels[] = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+	private Thread gameThread;
+	private boolean running = false;
+	// window variables
+	private int width = 320, height = 240;
+	private int scale = 3;
+	private String title = "MiJakEngine v0.1";
+	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+	private int pixels[] = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
-    public GameContainer(AbstractGame game) {
-	this.game = game;
-	window = new Window(title, width, height, scale, this);
-    }
-
-    public void init() {
-    }
-
-    public synchronized void start() {
-	if (running)
-	    return;
-	running = true;
-	gameThread = new Thread(this);
-	gameThread.start();
-    }
-
-    public synchronized void stop() {
-	running = false;
-	if (gameThread != null) {
-	    try {
-		gameThread.join();
-	    } catch (InterruptedException e) {
-		e.printStackTrace();
-	    }
+	public GameContainer(AbstractGame game) {
+		this.game = game;
+		window = new Window(title, width, height, scale, this);
 	}
-    }
-    
-    public void run() {
-	long lastTime = System.nanoTime();
-	double amountOfTicks = 60.0;
-	double ns = 1000000000 / amountOfTicks;
-	double delta = 0;
-	long timer = System.currentTimeMillis();
-	int updates = 0;
-	int frames = 0;
 
-	init();
-	while (running) {
-	    long now = System.nanoTime();
-	    delta += (now - lastTime) / ns;
-	    lastTime = now;
-	    while (delta >= 1) {
-		update();
-		updates++;
-		delta--;
-	    }
-	    render();
-	    frames++;
+	public void init() {
+	}
 
-	    if (System.currentTimeMillis() - timer > 1000) {
-		timer += 1000;
-		System.out.println("UPDATES: " + updates + "\t FPS: " + frames);
-		frames = 0;
-		updates = 0;
-	    }
+	public synchronized void start() {
+		if (running)
+			return;
+		running = true;
+		gameThread = new Thread(this);
+		gameThread.start();
 	}
-    }
-    
-    public void update() {
-	for (int i = 0; i < pixels.length; i++) {
-	    pixels[i] = i + new Random().nextInt();
+
+	public synchronized void stop() {
+		running = false;
+		if (gameThread != null) {
+			try {
+				gameThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-    }
-    
-    public void render() {
-	BufferStrategy bs = getBufferStrategy();
-	if (bs == null) {
-	    createBufferStrategy(3);
-	    return;
+
+	public void run() {
+		long lastTime = System.nanoTime();
+		double amountOfTicks = 60.0;
+		double ns = 1000000000 / amountOfTicks;
+		double delta = 0;
+		long timer = System.currentTimeMillis();
+		int updates = 0;
+		int frames = 0;
+
+		init();
+		while (running) {
+			long now = System.nanoTime();
+			delta += (now - lastTime) / ns;
+			lastTime = now;
+			while (delta >= 1) {
+				update();
+				updates++;
+				delta--;
+			}
+			render();
+			frames++;
+
+			if (System.currentTimeMillis() - timer > 1000) {
+				timer += 1000;
+				System.out.println("UPDATES: " + updates + "\t FPS: " + frames);
+				frames = 0;
+				updates = 0;
+			}
+		}
 	}
-	
-	Graphics g = bs.getDrawGraphics();
-	g.setColor(Color.BLACK);
-	g.fillRect(0, 0, width*scale, width*scale);
-	g.drawImage(image, 0, 0, width*scale, height*scale, null);
-	g.dispose();
-	bs.show();
-	
-    }
+
+	public void update() {
+		for (int i = 0; i < pixels.length; i++) {
+			pixels[i] = i + new Random().nextInt();
+		}
+	}
+
+	public void render() {
+		BufferStrategy bs = getBufferStrategy();
+		if (bs == null) {
+			createBufferStrategy(3);
+			return;
+		}
+
+		Graphics g = bs.getDrawGraphics();
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, width * scale, width * scale);
+		g.drawImage(image, 0, 0, width * scale, height * scale, null);
+		g.dispose();
+		bs.show();
+		
+
+	}
 
 }
