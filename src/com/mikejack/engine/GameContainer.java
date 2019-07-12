@@ -22,12 +22,14 @@ public class GameContainer extends Canvas implements Runnable {
     private int width = 320, height = 240;
     private int scale = 3;
     private String title = "MiJakEngine v0.1";
+    
     private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    private int pixels[] = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+    private Screen screen;
 
     public GameContainer(AbstractGame game) {
 	this.game = game;
 	window = new Window(title, width, height, scale, this);
+	screen = new Screen(this);
     }
 
     public void init() {
@@ -84,9 +86,7 @@ public class GameContainer extends Canvas implements Runnable {
     }
     
     public void update() {
-	for (int i = 0; i < pixels.length; i++) {
-	    pixels[i] = i + new Random().nextInt();
-	}
+	
     }
     
     public void render() {
@@ -97,12 +97,21 @@ public class GameContainer extends Canvas implements Runnable {
 	}
 	
 	Graphics g = bs.getDrawGraphics();
-	g.setColor(Color.BLACK);
-	g.fillRect(0, 0, width*scale, width*scale);
+	screen.clear();
 	g.drawImage(image, 0, 0, width*scale, height*scale, null);
 	g.dispose();
 	bs.show();
 	
     }
 
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public Screen getScreen() {
+        return screen;
+    }
+
+    
+    
 }
