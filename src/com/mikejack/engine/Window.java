@@ -24,4 +24,10 @@ public class Window {
 		frame.setVisible(true);
 
 	}
+
+	public JFrame getFrame() {
+	    return frame;
+	}
+	
+	
 }
