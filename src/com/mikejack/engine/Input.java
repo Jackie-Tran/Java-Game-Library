@@ -125,7 +125,6 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
     }
 
 
-
     public int getMouseX() {
         return mouseX;
     }

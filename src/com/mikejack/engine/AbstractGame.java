@@ -6,10 +6,7 @@ public abstract class AbstractGame {
 	
 	protected GameStateManager gsm = new GameStateManager();
 	
-	public void update(GameContainer gc) {
-		gsm.update();
-	}
-	
+	public abstract void update(GameContainer gc);
 	public abstract void render(GameContainer gc);
 
 }

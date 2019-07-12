@@ -26,11 +26,13 @@ public class GameContainer extends Canvas implements Runnable {
     
     private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     private Screen screen;
+    private Input input;
 
     public GameContainer(AbstractGame game) {
 	this.game = game;
 	window = new Window(title, width, height, scale, this);
 	screen = new Screen(this);
+	input = new Input(this);
 	
     }
 
@@ -90,7 +92,12 @@ public class GameContainer extends Canvas implements Runnable {
     }
 
     public void update() {
-    	
+	game.update(this);
+    	input.update();
+    }
+
+    public Input getInput() {
+        return input;
     }
 
     public void render() {
@@ -102,6 +109,7 @@ public class GameContainer extends Canvas implements Runnable {
 
 	Graphics g = bs.getDrawGraphics();
 	screen.clear();
+	game.render(this);
 	g.drawImage(image, 0, 0, width * scale, height * scale, null);
 	g.dispose();
 	bs.show();

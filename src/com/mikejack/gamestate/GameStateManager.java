@@ -14,7 +14,7 @@ public class GameStateManager {
 		gameStates = new ArrayList<GameState>();
 		
 		currentState = MENUSTATE;
-		gameStates.add(new MenuState(this));
+		//gameStates.add(new MenuState(this));
 	}
 		
 	public void setState(int state) {
@@ -37,5 +37,4 @@ public class GameStateManager {
 	public void keyReleased(int k) {
 		gameStates.get(currentState).keyReleased(k);
 	}
-
 }
