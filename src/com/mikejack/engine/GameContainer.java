@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Random;
 
+
 //Game container class "contains the game"
 //Game loop = a while loop that loops the game until the game is over
 //Game engine = engine starts up game loop and loads all resources and controls user inputs
@@ -30,6 +31,7 @@ public class GameContainer extends Canvas implements Runnable {
 	this.game = game;
 	window = new Window(title, width, height, scale, this);
 	screen = new Screen(this);
+	
     }
 
     public void init() {
@@ -41,6 +43,8 @@ public class GameContainer extends Canvas implements Runnable {
 	running = true;
 	gameThread = new Thread(this);
 	gameThread.start();
+	
+	
     }
 
     public synchronized void stop() {
@@ -86,7 +90,7 @@ public class GameContainer extends Canvas implements Runnable {
     }
 
     public void update() {
-	
+    	
     }
 
     public void render() {
