@@ -1,0 +1,6 @@
+1. Create GameContainer with gameloop
+2. Create Window class
+3. Create Renderer class with array to store pixels on screen
+4. Create abstract game class
+5. Implement input handling
+6. Implement GameStates
