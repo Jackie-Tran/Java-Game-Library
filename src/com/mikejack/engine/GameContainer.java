@@ -53,7 +53,7 @@ public class GameContainer extends Canvas implements Runnable {
 	    }
 	}
     }
-    
+
     public void run() {
 	long lastTime = System.nanoTime();
 	double amountOfTicks = 60.0;
@@ -84,34 +84,32 @@ public class GameContainer extends Canvas implements Runnable {
 	    }
 	}
     }
-    
+
     public void update() {
 	
     }
-    
+
     public void render() {
 	BufferStrategy bs = getBufferStrategy();
 	if (bs == null) {
 	    createBufferStrategy(3);
 	    return;
 	}
-	
+
 	Graphics g = bs.getDrawGraphics();
 	screen.clear();
-	g.drawImage(image, 0, 0, width*scale, height*scale, null);
+	g.drawImage(image, 0, 0, width * scale, height * scale, null);
 	g.dispose();
 	bs.show();
-	
+
     }
 
     public BufferedImage getImage() {
-        return image;
+	return image;
     }
 
     public Screen getScreen() {
-        return screen;
+	return screen;
     }
 
-    
-    
 }
