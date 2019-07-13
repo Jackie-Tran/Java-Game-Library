@@ -17,7 +17,7 @@ public class TestGame extends AbstractGame {
 
     @Override
     public void render(GameContainer gc) {
-
+    	gc.getScreen().fillRect(10, 10, 100, 100, 255);
 
     }
     
