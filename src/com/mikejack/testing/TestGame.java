@@ -4,21 +4,24 @@ import java.awt.event.KeyEvent;
 
 import com.mikejack.engine.AbstractGame;
 import com.mikejack.engine.GameContainer;
+import com.mikejack.graphics.Sprite;
 
 public class TestGame extends AbstractGame {
 
+    private Sprite sprite = new Sprite("/testSprite.png");
+    private int spriteX = 0, spriteY = 0;
+    
     @Override
     public void update(GameContainer gc) {
 	// TODO Auto-generated method stub
-	if (gc.getInput().isKey(KeyEvent.VK_A)) {
-	    System.out.println("A is pressed");
-	}
+	spriteX = gc.getInput().getMouseX()-16;
+	spriteY = gc.getInput().getMouseY()-16;
     }
 
     @Override
     public void render(GameContainer gc) {
-    	gc.getScreen().fillRect(10, 10, 100, 100, 255);
-
+    	gc.getScreen().fillRect(100, 100, 50, 50, 255);
+    	gc.getScreen().drawSprite(sprite, spriteX, spriteY);
     }
     
     public static void main(String args[]) {
