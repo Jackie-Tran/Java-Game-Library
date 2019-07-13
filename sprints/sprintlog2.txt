@@ -1,3 +1,6 @@
-1. Rendering shapes
-2. image loader
-3. 
+1. Drawing shapes
+2. Image loader
+3. draw images
+4. Jukebox for playing sounds
+5. abstract GameObject class
+6. ObjectLayer
