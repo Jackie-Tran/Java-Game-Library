@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Sprite {
 
+    public static final Sprite DEFAULT = new Sprite("/defaultSprite.png");
     private int width, height;
     private int pixels[];
     

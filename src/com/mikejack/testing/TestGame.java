@@ -8,7 +8,7 @@ import com.mikejack.graphics.Sprite;
 
 public class TestGame extends AbstractGame {
 
-    private Sprite sprite = new Sprite("/testSprite.png");
+    private Sprite sprite = Sprite.DEFAULT;
     private int spriteX = 0, spriteY = 0;
     
     @Override
