@@ -17,7 +17,7 @@ public class TestGame extends AbstractGame {
 
     @Override
     public void render(GameContainer gc) {
-	// TODO Auto-generated method stub
+
 
     }
     

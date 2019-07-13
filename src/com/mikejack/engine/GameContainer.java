@@ -115,6 +115,14 @@ public class GameContainer extends Canvas implements Runnable {
 	bs.show();
 
     }
+
+    public int getImageWidth() {
+	return width;
+    }
+    
+    public int getImageHeight() {
+	return height;
+    }
     
     public Window getWindow() {
         return window;

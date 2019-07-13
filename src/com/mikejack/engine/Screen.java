@@ -7,8 +7,8 @@ public class Screen {
     private int pixels[];
     
     public Screen(GameContainer gc) {
-	pW = gc.getWidth();
-	pH = gc.getHeight();
+	pW = gc.getImageWidth();
+	pH = gc.getImageHeight();
 	pixels = ((DataBufferInt)gc.getImage().getRaster().getDataBuffer()).getData();
     }
     

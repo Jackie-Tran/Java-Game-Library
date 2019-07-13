@@ -22,7 +22,6 @@ public class Window {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
-
 	}
 
 	public JFrame getFrame() {
