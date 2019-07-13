@@ -2,6 +2,7 @@ package com.mikejack.engine;
 
 import java.awt.image.DataBufferInt;
 
+import com.mikejack.graphics.Font;
 import com.mikejack.graphics.Sprite;
 
 public class Screen {
@@ -10,6 +11,8 @@ public class Screen {
     private int pW, pH;
     private int pixels[];
 
+    private Font font = Font.STANDARD;
+    
     public Screen(GameContainer gc) {
 	this.gc = gc;
 	pW = gc.getImageWidth();
@@ -23,6 +26,31 @@ public class Screen {
 	}
 	pixels[x + y * pW] = colour;
     }
+    
+    
+    public void drawText(String text, int offX, int offY, int colour) {
+    	
+    	text = text.toUpperCase();
+    	int offset = 0;
+    	
+    	for(int i = 0; i < text.length(); i++) {
+    		int unicode = text.codePointAt(i) - 32;
+    		
+    		for(int y = 0; y < font.getFontImage().getHeight(); y++) {
+    			
+    			for(int x = 0; x < font.getWidths()[unicode]; x++) {
+    				
+    				if(font.getFontImage().getPixels()[(x + font.getOffsets()[unicode]) + y * font.getFontImage().getWidth()] == 0xffffffff) {
+    					setPixel(x + offX + offset, y + offY , colour);
+    				}
+    			}
+    		}
+    		
+    		offset += font.getWidths()[unicode];
+    	}
+    	
+    }
+    
 
     public void drawSprite(Sprite sprite, int offX, int offY) {
 	int newX = 0;
