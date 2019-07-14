@@ -12,18 +12,17 @@ import com.mikejack.graphics.Sprite;
 public class TestGame extends AbstractGame {
 
     private Sprite sprite = Sprite.DEFAULT;
-    private AudioClip jump = new AudioClip("/sounds/jump.wav");
+    private AudioClip music = new AudioClip("/sounds/loop2.wav");
     
     public TestGame() {
-	jump.setVolume(-10);
+	music.setVolume(-10);
+	music.loop();
     }
     
     @Override
     public void update(GameContainer gc) {
 	// TODO Auto-generated method stub
-	if (gc.getInput().isKeyDown(KeyEvent.VK_SPACE)) {
-	    jump.play();
-	}
+	
     }
     @Override
     public void render(GameContainer gc) {
