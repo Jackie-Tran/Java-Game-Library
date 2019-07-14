@@ -2,6 +2,7 @@ package com.mikejack.engine;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Frame;
 
 import javax.swing.JFrame;
 
@@ -22,6 +23,9 @@ public class Window {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
+		frame.toFront();
+		frame.setState(Frame.NORMAL);
+		frame.requestFocus();
 	}
 
 	public JFrame getFrame() {

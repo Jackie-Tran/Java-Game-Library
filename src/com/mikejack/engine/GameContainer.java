@@ -38,6 +38,7 @@ public class GameContainer extends Canvas implements Runnable {
     }
 
     public void init() {
+	
     }
 
     public synchronized void start() {
