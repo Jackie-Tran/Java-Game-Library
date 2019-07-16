@@ -21,7 +21,7 @@ public class GameContainer extends Canvas implements Runnable {
     private Thread gameThread;
     private boolean running = false;
     // window variables
-    private int width = 320, height = 240;
+    private int width = 426, height = 240;
     private int scale = 3;
     private String title = "MiJakEngine v0.1";
 
