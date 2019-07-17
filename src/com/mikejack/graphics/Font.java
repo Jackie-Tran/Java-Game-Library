@@ -3,7 +3,7 @@ package com.mikejack.graphics;
 public class Font {
 	
 	//will be standard font that will load in
-	public static final Font STANDARD = new Font("/fonts/standard.png");
+	public static final Font STANDARD = new Font("/fonts/comic.png");
 	
 	private Sprite fontImage;
 	private int[] offsets;
@@ -12,8 +12,8 @@ public class Font {
 	public Font(String path) {
 		fontImage = new Sprite(path);
 		
-		offsets = new int[59];
-		widths = new int[59];
+		offsets = new int[256];
+		widths = new int[256];
 		
 		int unicode = 0;
 		

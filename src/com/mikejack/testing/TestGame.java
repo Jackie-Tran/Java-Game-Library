@@ -1,5 +1,6 @@
 package com.mikejack.testing;
 
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JOptionPane;
@@ -24,8 +25,12 @@ public class TestGame extends AbstractGame {
     }
     @Override
     public void render(GameContainer gc) {
-	gc.getScreen().drawSprite(sprite, gc.getInput().getMouseX(), gc.getInput().getMouseY());
-	gc.getScreen().drawSprite(sprite2, 100, 100);
+	for (int x = 0; x < sprite.getWidth(); x++) {
+	    for (int y = 0; y < sprite.getHeight(); y++) {
+		gc.getScreen().setLightMap(x, y, sprite.getPixels()[x + y * sprite.getWidth()]);
+	    }
+	}
+	gc.getScreen().drawSprite(sprite2, gc.getInput().getMouseX(), gc.getInput().getMouseY());
     }
     
     public static void main(String args[]) {
