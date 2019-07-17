@@ -9,8 +9,9 @@ public class TestGame extends AbstractGame {
 
     private Sprite sprite = new Sprite("/game/test.png");
     private Sprite sprite2 = new Sprite("/game/test2.png");
-    private Light light = new Light(100, 0xff00ffff);
+    private Light light = new Light(200, 0xff00ffff);
     public TestGame() {
+	sprite.setAlpha(true);
 	sprite.setLightBlock(Light.FULL);
     }
     

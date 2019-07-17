@@ -8,12 +8,16 @@ import java.util.Comparator;
 import com.mikejack.graphics.Font;
 import com.mikejack.graphics.ImageRequest;
 import com.mikejack.graphics.Light;
+import com.mikejack.graphics.LightRequest;
 import com.mikejack.graphics.Sprite;
 
 public class Screen {
 
+    public static final int DEFAULT_AMBIENT_COLOUR = 0xff494949;
+    
     private GameContainer gc;
     private ArrayList<ImageRequest> imageRequest = new ArrayList<ImageRequest>();
+    private ArrayList<LightRequest> lightRequest = new ArrayList<LightRequest>();
 
     private int pW, pH;
     private int pixels[];
@@ -21,7 +25,7 @@ public class Screen {
     private int lightMap[];
     private int lightBlock[];
 
-    private int ambientColour = 0xff232323;
+    private int ambientColour = DEFAULT_AMBIENT_COLOUR;
     private int zDepth = 0;
     private boolean processing = false;
 
@@ -51,11 +55,19 @@ public class Screen {
 
 	});
 
+	// Draw alpha things
 	for (int i = 0; i < imageRequest.size(); i++) {
 	    ImageRequest ir = imageRequest.get(i);
 	    setzDepth(ir.zDepth);
 	    drawSprite(ir.sprite, ir.offX, ir.offY);
 	}
+	
+	// Draw lighting
+	for (int i = 0; i < lightRequest.size(); i++) {
+	    LightRequest lr = lightRequest.get(i);
+	    drawLightRequest(lr.light, lr.x, lr.y);
+	}
+	
 
 	for (int i = 0; i < pixels.length; i++) {
 	    float r = ((lightMap[i] >> 16) & 0xff) / 255f;
@@ -67,6 +79,7 @@ public class Screen {
 	}
 
 	imageRequest.clear();
+	lightRequest.clear();
 	processing = false;
     }
 
@@ -204,6 +217,10 @@ public class Screen {
     }
 
     public void drawLight(Light light, int offX, int offY) {
+	lightRequest.add(new LightRequest(light, offX, offY));
+    }
+    
+    private void drawLightRequest(Light light, int offX, int offY) {
 	for (int i = 0; i <= light.getDiameter(); i++) {
 	    drawLightLine(light, light.getRadius(), light.getRadius(), i, 0, offX, offY);
 	    drawLightLine(light, light.getRadius(), light.getRadius(), i, light.getDiameter(), offX, offY);
