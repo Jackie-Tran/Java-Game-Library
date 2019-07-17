@@ -12,6 +12,7 @@ public class Sprite {
     private int width, height;
     private int pixels[];
     private boolean alpha = false;
+    private int lightBlock = Light.NONE;
     
     public Sprite(String path) {
 	BufferedImage image = null;
@@ -43,6 +44,14 @@ public class Sprite {
 
     public void setAlpha(boolean alpha) {
         this.alpha = alpha;
+    }
+
+    public int getLightBlock() {
+        return lightBlock;
+    }
+
+    public void setLightBlock(int lightBlock) {
+        this.lightBlock = lightBlock;
     }
     
 }
