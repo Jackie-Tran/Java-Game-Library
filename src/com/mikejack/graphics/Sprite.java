@@ -11,6 +11,7 @@ public class Sprite {
     public static final Sprite DEFAULT = new Sprite("/defaultSprite.png");
     private int width, height;
     private int pixels[];
+    private boolean alpha = false;
     
     public Sprite(String path) {
 	BufferedImage image = null;
@@ -34,6 +35,14 @@ public class Sprite {
 
     public int[] getPixels() {
         return pixels;
+    }
+
+    public boolean isAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(boolean alpha) {
+        this.alpha = alpha;
     }
     
 }

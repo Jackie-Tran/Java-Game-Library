@@ -11,27 +11,21 @@ import com.mikejack.graphics.Sprite;
 
 public class TestGame extends AbstractGame {
 
-    private Sprite sprite = Sprite.DEFAULT;
-    private AudioClip music = new AudioClip("/sounds/loop2.wav");
-    private Player player;
-    private Sprite background = new Sprite("/game/background.png");
+    private Sprite sprite = new Sprite("/game/test.png");
+    private Sprite sprite2 = new Sprite("/game/test2.png");
     public TestGame() {
-	music.setVolume(-10);
-	music.loop();
-	player = new Player(100, 100, 16, 16, null);
+	sprite.setAlpha(true);
     }
     
     @Override
     public void update(GameContainer gc) {
 	// TODO Auto-generated method stub
-	player.update(gc);
 	
     }
     @Override
     public void render(GameContainer gc) {
-	gc.getScreen().drawSprite(background, 0, 0);
-    	gc.getScreen().drawSprite(sprite, 100, 100);
-    	player.render(gc);
+	gc.getScreen().drawSprite(sprite, gc.getInput().getMouseX(), gc.getInput().getMouseY());
+	gc.getScreen().drawSprite(sprite2, 100, 100);
     }
     
     public static void main(String args[]) {
