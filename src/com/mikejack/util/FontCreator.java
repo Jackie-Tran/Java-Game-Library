@@ -1,4 +1,4 @@
-package com.mikejack.graphics;
+package com.mikejack.util;
 
 import java.awt.Color;
 import java.awt.EventQueue;

@@ -14,9 +14,13 @@ import java.util.Random;
 public class GameContainer extends Canvas implements Runnable {
 
     public static int UPDATES, FPS;
+    public static final int UPDATE_CAP = 60;
     
     private Window window;
     private AbstractGame game;
+    
+    // Debug variables
+    private boolean showFps = false;
 
     private Thread gameThread;
     private boolean running = false;
@@ -25,13 +29,17 @@ public class GameContainer extends Canvas implements Runnable {
     private int scale = 3;
     private String title = "MiJakEngine v0.1";
 
-    private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    private BufferedImage image;
     private Screen screen;
     private Input input;
 
-    public GameContainer(AbstractGame game) {
+    public GameContainer(int width, int height, int scale, AbstractGame game) {
 	this.game = game;
+	this.width = width;
+	this.height = height;
+	this.scale = scale;
 	window = new Window(title, width, height, scale, this);
+	image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	screen = new Screen(this);
 	input = new Input(this);
 
@@ -63,7 +71,7 @@ public class GameContainer extends Canvas implements Runnable {
 
     public void run() {
 	long lastTime = System.nanoTime();
-	double amountOfTicks = 60.0;
+	double amountOfTicks = UPDATE_CAP;
 	double ns = 1000000000 / amountOfTicks;
 	double delta = 0;
 	long timer = System.currentTimeMillis();
@@ -96,7 +104,7 @@ public class GameContainer extends Canvas implements Runnable {
     }
 
     public void update() {
-	game.update(this);
+	game.update(this, (float)1/UPDATE_CAP);
 	input.update();
 
     }
@@ -116,7 +124,8 @@ public class GameContainer extends Canvas implements Runnable {
 	screen.clear();
 	game.render(this, screen);
 	screen.process();
-	screen.drawText("FPS: " + Integer.toString(FPS), 0, 0, 0xffffffff);
+	if (showFps)
+	    screen.drawText("FPS: " + Integer.toString(FPS), 0, 0, 0xffffffff);
 	g.drawImage(image, 0, 0, width * scale, height * scale, null);
 	g.dispose();
 	bs.show();
@@ -145,6 +154,10 @@ public class GameContainer extends Canvas implements Runnable {
 
     public Screen getScreen() {
 	return screen;
+    }
+    
+    public void setFpsVisibility(boolean showFps) {
+	this.showFps = showFps;
     }
 
 }

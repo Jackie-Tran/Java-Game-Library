@@ -8,30 +8,31 @@ import com.mikejack.graphics.Sprite;
 
 public class TestGame extends AbstractGame {
 
-    private Sprite sprite = new Sprite("/game/test.png");
-    private Sprite sprite2 = new Sprite("/game/test2.png");
-    private Light light = new Light(200, 0xff00ffff);
+    private Sprite background = new Sprite("/game/background.png");
+    private Light light = new Light(100, 0xffffffff);
+    private int lightX = 0;
+    private int velX = 5;
+    
     public TestGame() {
-	sprite.setAlpha(true);
-	sprite.setLightBlock(Light.FULL);
+	Screen.setAmbientLight(0);
     }
     
     @Override
-    public void update(GameContainer gc) {
-	// TODO Auto-generated method stub
-	
+    public void update(GameContainer gc, float dt) {
+	lightX += velX;
+	if (lightX <= 0 || lightX >= gc.getImageWidth()) {
+	    velX *= -1;
+	}
     }
     @Override
     public void render(GameContainer gc, Screen screen) {
-	screen.setzDepth(0);
-	screen.drawSprite(sprite2, 0, 0);
-	screen.drawSprite(sprite, 100, 100);
-	screen.drawSprite(sprite, 200, 100);
-	screen.drawLight(light, gc.getInput().getMouseX(), gc.getInput().getMouseY());
+	screen.drawSprite(background, 0, 0);
+	screen.drawLight(light, lightX, 0);
     }
     
     public static void main(String args[]) {
-	GameContainer gc = new GameContainer(new TestGame());
+	GameContainer gc = new GameContainer(430, 240, 3, new TestGame());
+	gc.setFpsVisibility(false);
 	gc.start();
     }
 

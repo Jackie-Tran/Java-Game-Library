@@ -13,8 +13,8 @@ import com.mikejack.graphics.Sprite;
 
 public class Screen {
 
-    public static final int DEFAULT_AMBIENT_COLOUR = 0xff494949;
-    
+    public static final int DEFAULT_AMBIENT_COLOUR = 0xffffffff;
+
     private GameContainer gc;
     private ArrayList<ImageRequest> imageRequest = new ArrayList<ImageRequest>();
     private ArrayList<LightRequest> lightRequest = new ArrayList<LightRequest>();
@@ -42,6 +42,7 @@ public class Screen {
     }
 
     public void process() {
+	// Post processing. Draws alpha, lights etc..
 	processing = true;
 	Collections.sort(imageRequest, new Comparator<ImageRequest>() {
 	    @Override
@@ -61,13 +62,12 @@ public class Screen {
 	    setzDepth(ir.zDepth);
 	    drawSprite(ir.sprite, ir.offX, ir.offY);
 	}
-	
+
 	// Draw lighting
 	for (int i = 0; i < lightRequest.size(); i++) {
 	    LightRequest lr = lightRequest.get(i);
 	    drawLightRequest(lr.light, lr.x, lr.y);
 	}
-	
 
 	for (int i = 0; i < pixels.length; i++) {
 	    float r = ((lightMap[i] >> 16) & 0xff) / 255f;
@@ -121,7 +121,7 @@ public class Screen {
 
 	lightMap[x + y * pW] = (maxRed << 16 | maxGreen << 8 | maxBlue);
     }
-    
+
     public void setLightBlock(int x, int y, int value) {
 	if (x < 0 || x >= pW || y < 0 || y >= pH) {
 	    return;
@@ -129,7 +129,7 @@ public class Screen {
 
 	if (zBuffer[x + y * pW] > zDepth)
 	    return;
-	
+
 	lightBlock[x + y * pW] = value;
     }
 
@@ -197,7 +197,7 @@ public class Screen {
     }
 
     public void drawRect(int offX, int offY, int width, int height, int colour) {
-	for (int y = 0; y <= height; y++) {
+	for (int y = 0; y < height; y++) {
 	    setPixel(offX, y + offY, colour);
 	    setPixel(offX + width, y + offY, colour);
 	}
@@ -219,7 +219,7 @@ public class Screen {
     public void drawLight(Light light, int offX, int offY) {
 	lightRequest.add(new LightRequest(light, offX, offY));
     }
-    
+
     private void drawLightRequest(Light light, int offX, int offY) {
 	for (int i = 0; i <= light.getDiameter(); i++) {
 	    drawLightLine(light, light.getRadius(), light.getRadius(), i, 0, offX, offY);
@@ -243,25 +243,26 @@ public class Screen {
 	while (true) {
 	    int screenX = x0 - light.getRadius() + offX;
 	    int screenY = y0 - light.getRadius() + offY;
-	    
-	    if (screenX < 0 || screenX >= pW || screenY < 0 || screenY >= pH)
-		return;
-	    
-	    int lightColour =light.getLightValue(x0, y0);
-	    if (lightColour == 0)
-		return;
-	    
-	    if (lightBlock[screenX + screenY * pW] == Light.FULL)
-		return;
-	    
-	    // Drawing line
-	    setLightMap(screenX, screenY, lightColour);
-	    
+
+	    if (!(screenX < 0 || screenX >= pW || screenY < 0 || screenY >= pH)) {
+
+		int lightColour = light.getLightValue(x0, y0);
+		// No light
+		if (lightColour == 0)
+		    return;
+
+		// If there is an object blocking light here
+		if (lightBlock[screenX + screenY * pW] == Light.FULL)
+		    return;
+
+		// Drawing line
+		setLightMap(screenX, screenY, lightColour);
+	    }
 	    if (x0 == x1 && y0 == y1)
 		break;
 	    // Calculate line
 	    err2 = 2 * err;
-	    if (err2 > -1*dy) {
+	    if (err2 > -1 * dy) {
 		err -= dy;
 		x0 += sx;
 	    }
