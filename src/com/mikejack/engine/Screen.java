@@ -25,7 +25,7 @@ public class Screen {
     private int lightMap[];
     private int lightBlock[];
 
-    private int ambientColour = DEFAULT_AMBIENT_COLOUR;
+    private static int ambientColour = DEFAULT_AMBIENT_COLOUR;
     private int zDepth = 0;
     private boolean processing = false;
 
@@ -295,8 +295,8 @@ public class Screen {
 	return ambientColour;
     }
 
-    public void setAmbientColour(int ambientColour) {
-	this.ambientColour = ambientColour;
+    public static void setAmbientLight(int newLightColour) {
+	ambientColour = newLightColour;
     }
 
 }

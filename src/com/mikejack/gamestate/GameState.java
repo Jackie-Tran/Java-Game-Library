@@ -1,5 +1,8 @@
 package com.mikejack.gamestate;
 
+import com.mikejack.engine.GameContainer;
+import com.mikejack.engine.Screen;
+
 public abstract class GameState {
 	
 	protected GameStateManager gsm;
@@ -9,8 +12,8 @@ public abstract class GameState {
 	}
 	
 	public abstract void init();	
-	public abstract void update();
-	public abstract void draw(java.awt.Graphics2D g);
+	public abstract void update(GameContainer gc);
+	public abstract void render(GameContainer gc, Screen screen);
 	public abstract void keyPressed(int k);
 	public abstract void keyReleased(int k);
 	

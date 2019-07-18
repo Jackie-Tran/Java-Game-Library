@@ -2,6 +2,7 @@ package com.mikejack.testing;
 
 import com.mikejack.engine.AbstractGame;
 import com.mikejack.engine.GameContainer;
+import com.mikejack.engine.Screen;
 import com.mikejack.graphics.Light;
 import com.mikejack.graphics.Sprite;
 
@@ -21,12 +22,12 @@ public class TestGame extends AbstractGame {
 	
     }
     @Override
-    public void render(GameContainer gc) {
-	
-	gc.getScreen().setzDepth(0);
-	gc.getScreen().drawSprite(sprite2, 0, 0);
-	gc.getScreen().drawSprite(sprite, 100, 100);
-	gc.getScreen().drawLight(light, gc.getInput().getMouseX(), gc.getInput().getMouseY());
+    public void render(GameContainer gc, Screen screen) {
+	screen.setzDepth(0);
+	screen.drawSprite(sprite2, 0, 0);
+	screen.drawSprite(sprite, 100, 100);
+	screen.drawSprite(sprite, 200, 100);
+	screen.drawLight(light, gc.getInput().getMouseX(), gc.getInput().getMouseY());
     }
     
     public static void main(String args[]) {

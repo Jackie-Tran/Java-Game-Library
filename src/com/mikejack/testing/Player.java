@@ -4,11 +4,10 @@ import java.awt.event.KeyEvent;
 
 import com.mikejack.engine.GameContainer;
 import com.mikejack.objects.GameObject;
-import com.mikejack.objects.Tag;
 
 public class Player extends GameObject{
 
-    public Player(int x, int y, int width, int height, Tag tag) {
+    public Player(int x, int y, int width, int height, String tag) {
 	super(x, y, width, height, tag);
 	// TODO Auto-generated constructor stub
     }

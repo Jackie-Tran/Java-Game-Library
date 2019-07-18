@@ -6,11 +6,11 @@ import com.mikejack.graphics.Sprite;
 public abstract class GameObject {
 
     protected Sprite sprite = Sprite.DEFAULT;
-    protected Tag tag;
+    protected String tag;
     protected int x, y, width, height;
     protected float velX=0, velY=0;
     
-    public GameObject(int x, int y, int width, int height, Tag tag) {
+    public GameObject(int x, int y, int width, int height, String tag) {
 	this.x = x;
 	this.y = y;
 	this.width = width;
@@ -18,7 +18,7 @@ public abstract class GameObject {
 	this.tag = tag;
     }
     
-    public GameObject(int x, int y,  int width, int height, Tag tag, Sprite sprite) {
+    public GameObject(int x, int y,  int width, int height, String tag, Sprite sprite) {
 	this.x = x;
 	this.y = y;
 	this.width = width;
@@ -38,11 +38,11 @@ public abstract class GameObject {
         this.sprite = sprite;
     }
 
-    public Tag getTag() {
+    public String getTag() {
         return tag;
     }
 
-    public void setTag(Tag tag) {
+    public void setTag(String tag) {
         this.tag = tag;
     }
 

@@ -114,7 +114,7 @@ public class GameContainer extends Canvas implements Runnable {
 
 	Graphics g = bs.getDrawGraphics();
 	screen.clear();
-	game.render(this);
+	game.render(this, screen);
 	screen.process();
 	screen.drawText("FPS: " + Integer.toString(FPS), 0, 0, 0xffffffff);
 	g.drawImage(image, 0, 0, width * scale, height * scale, null);
