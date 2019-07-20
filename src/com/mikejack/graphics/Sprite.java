@@ -10,12 +10,13 @@ public class Sprite {
 
     public static final Sprite DEFAULT = new Sprite("/defaultSprite.png");
     private int width, height;
+    private BufferedImage image;
     private int pixels[];
     private boolean alpha = false;
     private int lightBlock = Light.NONE;
     
     public Sprite(String path) {
-	BufferedImage image = null;
+	image = null;
 	try {
 	    image = ImageIO.read(Image.class.getResourceAsStream(path));
 	} catch (IOException e) {
@@ -52,6 +53,10 @@ public class Sprite {
 
     public void setLightBlock(int lightBlock) {
         this.lightBlock = lightBlock;
+    }
+
+    public BufferedImage getImage() {
+        return image;
     }
     
 }

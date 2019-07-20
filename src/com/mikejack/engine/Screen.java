@@ -1,5 +1,8 @@
 package com.mikejack.engine;
 
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -195,22 +198,22 @@ public class Screen {
 	    }
 	}
     }
-
+    
     public void drawRect(int offX, int offY, int width, int height, int colour) {
 	for (int y = 0; y < height; y++) {
 	    setPixel(offX, y + offY, colour);
-	    setPixel(offX + width, y + offY, colour);
+	    setPixel(offX + width-1, y + offY, colour);
 	}
 
 	for (int x = 0; x < width; x++) {
 	    setPixel(x + offX, offY, colour);
-	    setPixel(x + offX, offY + height, colour);
+	    setPixel(x + offX, offY + height-1, colour);
 	}
     }
 
     public void fillRect(int offX, int offY, int width, int height, int colour) {
-	for (int y = 0; y <= height; y++) {
-	    for (int x = 0; x <= width; x++) {
+	for (int y = 0; y < height; y++) {
+	    for (int x = 0; x < width; x++) {
 		setPixel(x + offX, y + offY, colour);
 	    }
 	}
